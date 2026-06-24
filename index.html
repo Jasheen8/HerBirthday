@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday ❤️</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;600;700&family=Lora:ital,wght@0,400;1,400&family=Crimson+Text:ital@0;1&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+<body>
+
+<!-- BACKGROUND PARTICLES -->
+<canvas id="bgCanvas"></canvas>
+
+<!-- ===================== ENTRY LOCK SCREEN ===================== -->
+<div id="lockScreen">
+  <div class="paper-texture-overlay"></div>
+  <div class="floating-hearts-bg" id="floatingHeartsBg"></div>
+
+  <div class="lock-card">
+    <div class="lock-card-ribbon"></div>
+    <div class="lock-card-inner">
+      <div class="lock-icon" id="lockIcon">
+        <svg viewBox="0 0 60 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="30" width="40" height="32" rx="6" fill="#6D2B35" stroke="#D4B483" stroke-width="2"/>
+          <path d="M18 30V22C18 14.27 42 14.27 42 22V30" stroke="#6D2B35" stroke-width="4" stroke-linecap="round" id="lockShackle"/>
+          <circle cx="30" cy="46" r="5" fill="#D4B483"/>
+          <rect x="28" y="46" width="4" height="7" rx="2" fill="#D4B483"/>
+        </svg>
+      </div>
+      <h1 class="lock-title">Happy Birthday</h1>
+      <p class="lock-subtitle">to my favourite person ❤️</p>
+      <p class="lock-hint">Enter our secret code to open</p>
+      <div class="code-inputs" id="codeInputs">
+        <input type="text" maxlength="1" class="code-digit" data-index="0" />
+        <input type="text" maxlength="1" class="code-digit" data-index="1" />
+        <input type="text" maxlength="1" class="code-digit" data-index="2" />
+        <input type="text" maxlength="1" class="code-digit" data-index="3" />
+        <input type="text" maxlength="1" class="code-digit" data-index="4" />
+        <input type="text" maxlength="1" class="code-digit" data-index="5" />
+      </div>
+      <p class="code-message" id="codeMessage"></p>
+      <div class="lock-doodles">
+        <span class="doodle-heart">♥</span>
+        <span class="doodle-star">✦</span>
+        <span class="doodle-heart small">♥</span>
+      </div>
+    </div>
+    <div class="torn-edge bottom"></div>
+  </div>
+
+  <div class="scattered-hearts" id="scatteredHearts"></div>
+</div>
+
+<!-- ===================== CINEMATIC INTRO ===================== -->
+<div id="cinematicIntro">
+  <div class="cinematic-overlay"></div>
+  <div class="typewriter-container" id="typewriterContainer">
+    <p class="typewriter-line" id="twLine1"></p>
+    <p class="typewriter-line" id="twLine2"></p>
+    <p class="typewriter-line" id="twLine3"></p>
+    <p class="typewriter-line" id="twLine4"></p>
+    <h1 class="welcome-title" id="welcomeTitle"></h1>
+  </div>
+  <canvas id="starsCanvas"></canvas>
+</div>
+
+<!-- ===================== MAIN WEBSITE ===================== -->
+<div id="mainWebsite">
+
+  <!-- SECTION 1: Memory Balloons -->
+  <section id="sec-balloons" class="section balloon-section">
+    <div class="section-bg-texture"></div>
+    <div class="section-header">
+      <h2 class="section-title handwritten">Memory Balloons</h2>
+      <p class="section-sub">Click each balloon to reveal a hidden memory ❤️</p>
+    </div>
+    <div class="balloons-container" id="balloonsContainer"></div>
+    <div class="confetti-layer" id="confettiLayer"></div>
+  </section>
+
+  <!-- SECTION 2: 3D Memory Carousel -->
+  <section id="sec-carousel" class="section carousel-section">
+    <div class="torn-top"></div>
+    <div class="section-header">
+      <h2 class="section-title handwritten">Our Gallery</h2>
+      <p class="section-sub">Drag to explore our memories ✨</p>
+    </div>
+    <div class="carousel-wrapper" id="carouselWrapper">
+      <div class="carousel-3d" id="carousel3d"></div>
+    </div>
+    <div class="carousel-caption" id="carouselCaption">Hover a photo to read its story</div>
+    <div class="photo-modal" id="photoModal">
+      <div class="modal-inner">
+        <button class="modal-close" id="modalClose">✕</button>
+        <div class="polaroid-large" id="polaroidLarge">
+          <div class="polaroid-photo" id="modalPhoto"></div>
+          <p class="polaroid-caption" id="modalCaption"></p>
+        </div>
+        <div class="sticky-note" id="modalNote"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: Love Letters -->
+  <section id="sec-letters" class="section letter-section">
+    <div class="torn-top cream"></div>
+    <div class="section-header">
+      <h2 class="section-title handwritten">Letters For You</h2>
+      <p class="section-sub">Click an envelope to open ❤️</p>
+    </div>
+    <div class="envelopes-container" id="envelopesContainer"></div>
+    <div class="letter-modal" id="letterModal">
+      <div class="letter-paper" id="letterPaper">
+        <div class="letter-ribbon" id="letterRibbon"></div>
+        <div class="letter-content" id="letterContent"></div>
+        <button class="letter-close" id="letterClose">close letter ✕</button>
+      </div>
+    </div>
+    <div class="flying-envelopes" id="flyingEnvelopes"></div>
+  </section>
+
+  <!-- SECTION 4: Music Player -->
+  <section id="sec-music" class="section music-section">
+    <div class="torn-top wine"></div>
+    <div class="music-player-card" id="musicPlayerCard">
+      <div class="vinyl-record" id="vinylRecord">
+        <div class="vinyl-inner"></div>
+        <div class="vinyl-center"></div>
+      </div>
+      <div class="music-info">
+        <h2 class="now-playing-title" id="nowPlayingTitle">Birthday Serenade</h2>
+        <p class="now-playing-artist" id="nowPlayingArtist">A melody just for you</p>
+        <div class="music-controls">
+          <button class="music-btn prev" id="prevBtn">⏮</button>
+          <button class="music-btn play" id="playBtn">▶</button>
+          <button class="music-btn next" id="nextBtn">⏭</button>
+        </div>
+        <div class="equalizer" id="equalizer">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="music-notes-float" id="musicNotes"></div>
+      </div>
+      <div class="playlist" id="playlist"></div>
+    </div>
+    <div class="floating-notes-bg" id="floatingNotesBg"></div>
+  </section>
+
+  <!-- SECTION 5: Timeline -->
+  <section id="sec-timeline" class="section timeline-section">
+    <div class="torn-top cream"></div>
+    <div class="section-header">
+      <h2 class="section-title handwritten">Our Story</h2>
+      <p class="section-sub">A journey worth remembering ✨</p>
+    </div>
+    <div class="timeline-path" id="timelinePath"></div>
+  </section>
+
+  <!-- SECTION 6: Constellation -->
+  <section id="sec-constellation" class="section constellation-section">
+    <div class="torn-top dark"></div>
+    <canvas id="constellationCanvas"></canvas>
+    <div class="section-header light">
+      <h2 class="section-title handwritten">Our Constellation</h2>
+      <p class="section-sub" style="color:#ECE3D6">Click the stars to unlock memories ⭐</p>
+    </div>
+    <div class="star-memory-card" id="starMemoryCard"></div>
+  </section>
+
+  <!-- SECTION 7: Gift Hunt -->
+  <section id="sec-gifts" class="section gift-section">
+    <div class="torn-top cream"></div>
+    <div class="section-header">
+      <h2 class="section-title handwritten">Mystery Gifts</h2>
+      <p class="section-sub">Find all hidden gifts 🎁</p>
+    </div>
+    <div class="gift-progress">
+      <span id="giftCount">0</span>/3 gifts found
+    </div>
+    <div class="gifts-area" id="giftsArea"></div>
+    <div class="gift-celebration" id="giftCelebration">
+      <div class="celebration-card">
+        <h2>Congratulations ❤️</h2>
+        <p>You found all surprises!</p>
+        <div class="celebration-hearts"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 8: Mini Game -->
+  <section id="sec-game" class="section game-section">
+    <div class="torn-top wine"></div>
+    <div class="section-header">
+      <h2 class="section-title handwritten">Catch My Heart</h2>
+      <p class="section-sub">Collect 20 hearts to unlock a secret ❤️</p>
+    </div>
+    <div class="game-wrapper" id="gameWrapper">
+      <div class="game-score">
+        <span id="heartScore">0</span>/20 hearts
+      </div>
+      <button class="start-game-btn" id="startGameBtn">Start Game ❤️</button>
+      <div class="game-area" id="gameArea"></div>
+    </div>
+    <div class="game-reward" id="gameReward">
+      <div class="reward-card">
+        <h2>✨ Secret Memory Unlocked ✨</h2>
+        <p class="reward-text">You make every ordinary moment feel magical. Thank you for being you. ❤️</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 9: Video Cinema -->
+<section id="cinemaSection" class="section cinema-section">
+
+  <div class="torn-top dark"></div>
+
+  <div class="section-header light">
+    <h2 class="section-title handwritten">Our Movie ❤️</h2>
+    <p class="section-sub">Every memory feels like a beautiful film</p>
+  </div>
+
+  <div class="cinema-screen">
+
+    <video
+      id="loveMovie"
+      controls
+      preload="metadata"
+      playsinline
+    >
+      <source src="media/vedio 1.mp4" type="video/mp4">
+      Your browser does not support video.
+    </video>
+
+  </div>
+
+</section>
+  <!-- SECTION 10: Birthday Cake -->
+  <section id="sec-cake" class="section cake-section">
+    <div class="torn-top dark"></div>
+    <div class="section-header">
+      <h2 class="section-title handwritten">Make a Wish</h2>
+      <p class="section-sub">Blow or click the candles ❤️</p>
+    </div>
+    <div class="cake-wrapper" id="cakeWrapper">
+      <canvas id="cakeCanvas"></canvas>
+    </div>
+    <p class="cake-hint" id="cakeHint">Click a candle to blow it out ✨</p>
+    <div class="wish-reveal" id="wishReveal">
+      <p class="wish-text">May all your dreams come true today and every day ❤️</p>
+    </div>
+    <canvas id="fireworksCanvas"></canvas>
+  </section>
+
+
+  <!-- FINAL ENDING -->
+  <section id="lastSurprise" class="paper-section">
+  <div class="cat-dance">
+  <img src="images/cat.png" alt="Birthday Cat">
+</div>
+  <h2>One Last Surprise</h2>
+  <p class="subtitle">Pricess enter your
+     name to unlock the final page</p>
+
+  <div class="unlock-box">
+    <input type="text" id="nameInput" placeholder="Type name..." />
+    <button onclick="unlockFuturePlans()">Unlock Surprise</button>
+    <p id="unlockMsg"></p>
+  </div>
+</section>
+
+<section id="futurePlans" class="paper-section hidden">
+  <h2>Our Future Plans</h2>
+  <p class="subtitle">Three little dreams for us</p>
+
+  <div class="heart-grid">
+    <div class="heart-card" onclick="openPlan(1)">❤️</div>
+    <div class="heart-card" onclick="openPlan(2)">❤️</div>
+    <div class="heart-card" onclick="openPlan(3)">❤️</div>
+  </div>
+
+  <div id="planPopup" class="plan-popup hidden">
+    <h3 id="planTitle"></h3>
+    <p id="planText"></p>
+    <button onclick="closePlan()">Close</button>
+  </div>
+</section>
+
+</div><!-- end mainWebsite -->
+<audio id="audioPlayer"></audio>
+<script src="script.js"></script>
+</body>
+</html>
